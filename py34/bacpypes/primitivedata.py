@@ -609,8 +609,13 @@ class Unsigned(Atomic):
             self.value = arg
         elif isinstance(arg, Unsigned):
             self.value = arg.value
+        elif isinstance(arg, str):
+            try:
+                self.value = int(arg)
+            except ValueError as exc:
+                raise TypeError(f"invalid constructor datatype trying to convert to int {arg}") from exc
         else:
-            raise TypeError("invalid constructor datatype")
+            raise TypeError(f"invalid constructor datatype {arg}")
 
     def encode(self, tag):
         # rip apart the number
